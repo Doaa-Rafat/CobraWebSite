@@ -1,0 +1,9 @@
+﻿@using CobraLocalization.Resources
+
+@inject LocService SharedLocalizer
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>@SharedLocalizer.GetLocalizedHtmlString("Language")</h1>
+
