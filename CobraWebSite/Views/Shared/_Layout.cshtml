@@ -35,7 +35,12 @@
 
 
 </head>
-<body>
+
+@{ 
+    string letters = System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+    var direction = letters.Equals("ar")? "rtl" :"ltr";
+}
+<body class="@direction">
 
     <!-- loader start -->
     <div class="loader_skeleton">
@@ -951,7 +956,7 @@
     <!-- Content Wrapper. Contains page content -->
     <div>
         <!-- Content Header (Page header) -->
-        @RenderBody()
+          @RenderBody()
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
