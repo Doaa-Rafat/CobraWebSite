@@ -1,10 +1,10 @@
 ﻿@using CobraLocalization.Resources
-
+@model List<CobraWebSite.Models.MainCategory>
 @inject LocService SharedLocalizer
 @{
     ViewData["Title"] = "Index";
 }
-
+<input id="mainCategory"  type="hidden" value="@string.Join(",",Model.Select(m=>m.NameAR).ToList())"/>
 <!-- Home slider -->
 <section class="p-0">
     <div class="slide-1 home-slider">
@@ -80,12 +80,12 @@
                                          class="img-fluid blur-up lazyload bg-img" alt="">
                                 </a>
                             </div>
-                            <div class="back">
+                            @*<div class="back">
                                 <a href="product-page(no-sidebar).html">
                                     <img src="~/images/egyptian-marble/فليتو-مشبح.jpg"
                                          class="img-fluid blur-up lazyload bg-img" alt="">
                                 </a>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                     <div class="product-box">
@@ -96,12 +96,12 @@
                                          alt="">
                                 </a>
                             </div>
-                            <div class="back">
+                            @*<div class="back">
                                 <a href="product-page(no-sidebar).html">
                                     <img src="~/images/egyptian-marble/جلاله-فص.jpg"
                                          class="img-fluid blur-up lazyload bg-img" alt="">
                                 </a>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                     <div class="product-box">
@@ -112,12 +112,12 @@
                                          class="img-fluid blur-up lazyload bg-img" alt="">
                                 </a>
                             </div>
-                            <div class="back">
+                            @*<div class="back">
                                 <a href="product-page(no-sidebar).html">
                                     <img src="~/images/egyptian-marble/meli-grey.jpg"
                                          class="img-fluid blur-up lazyload bg-img" alt="">
                                 </a>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                     <div class="product-box">
@@ -128,12 +128,12 @@
                                          class="img-fluid blur-up lazyload bg-img" alt="">
                                 </a>
                             </div>
-                            <div class="back">
+                            @*<div class="back">
                                 <a href="product-page(no-sidebar).html">
                                     <img src="~/images/egyptian-marble/صني.jpg"
                                          class="img-fluid blur-up lazyload bg-img" alt="">
                                 </a>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                     <div class="product-box">
@@ -144,12 +144,12 @@
                                          class="img-fluid blur-up lazyload bg-img" alt="">
                                 </a>
                             </div>
-                            <div class="back">
+                            @*<div class="back">
                                 <a href="product-page(no-sidebar).html">
                                     <img src="~/images/egyptian-marble/زعفرانه-مسطر.jpg"
                                          class="img-fluid blur-up lazyload bg-img" alt="">
                                 </a>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                 </div>

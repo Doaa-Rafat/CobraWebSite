@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using CobraLocalization.Resources;
+using CobraWebSite.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Localization.Routing;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
@@ -21,6 +24,12 @@ namespace CobraWebSite
         IList<CultureInfo> supportedCultures;
 
         RequestLocalizationOptions localizationOptions;
+
+        private IConfigurationRoot configuration = new ConfigurationBuilder()
+             .SetBasePath(Directory.GetCurrentDirectory())
+             .AddJsonFile("appsettings.json")
+             .Build();
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<LocService>();
@@ -33,8 +42,8 @@ namespace CobraWebSite
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddMvc()
-        .AddViewLocalization()
-        .AddDataAnnotationsLocalization(options =>
+                    .AddViewLocalization()
+                    .AddDataAnnotationsLocalization(options =>
         {
             options.DataAnnotationLocalizerProvider = (type, factory) =>
             {
@@ -42,12 +51,13 @@ namespace CobraWebSite
                 return factory.Create("SharedResource", assemblyName.Name);
             };
         });
+           
+            #region Culture and translation
             supportedCultures = new List<CultureInfo>
                         {
                     new CultureInfo("ar-EG"),
                     new CultureInfo("en-US"),
                         };
-
             localizationOptions = new RequestLocalizationOptions
             {
                 DefaultRequestCulture = new RequestCulture(culture: "ar-EG", uiCulture: "ar-EG"),
@@ -57,8 +67,7 @@ namespace CobraWebSite
 
             };
             localizationOptions.RequestCultureProviders.Insert(0, new RouteDataRequestCultureProvider());
-            services.Configure<RequestLocalizationOptions>(
-                options =>
+            services.Configure<RequestLocalizationOptions>(options =>
                 {
                     options.DefaultRequestCulture = localizationOptions.DefaultRequestCulture;
                     options.SupportedCultures = localizationOptions.SupportedCultures;
@@ -66,12 +75,21 @@ namespace CobraWebSite
 
                     options.RequestCultureProviders.Insert(0, new RouteDataRequestCultureProvider());
                 });
+            #endregion
 
+            #region SettingsKeys
+            SettingKeys settings = new SettingKeys();
+            settings.CobraAPIURL = configuration["CobraAPIURL"];
+            ConfigurationManager.settingKeys = settings;
+
+            services.AddSingleton<ConfigurationManager>();
+            #endregion
             services.AddMvc();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseForwardedHeaders(new ForwardedHeadersOptions { ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto});
             var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(locOptions.Value);
 

@@ -1,0 +1,30 @@
+﻿[
+  {
+    "MainCategory": "EgyptianMarble",
+    "MaterialName": "Feletto Veins.jpg",
+    "CountryOfOrigin": "Egypt",
+    "MaterialAvailability": [ "Blocks", "slabs", "tiles" ],
+    "DimensionsOfTheSlabs": "265-300cm x 160-195cm",
+    "ThicknessOfTheSlabs": [ 15, 20, 30, 40, 50 ],
+    "SurfaceFinishes": [ "Polished", "unpolished", "honed", "brushed", "acid", "sandblasted", "bush hammered", "tumbled", "striped", "split face and flamed" ],
+    "MainPictureName": "egyptian-marble/zafarana-Flower.jpg",
+    "Pictures": [
+      "egyptian-marble/feletto-veins.jpg",
+      "egyptian-marble/زعفرانه-مسطر.jpg"
+    ]
+  },
+  {
+    "MainCategory": "EgyptianMarble",
+    "MaterialName": "Zafarana Vein Cut",
+    "CountryOfOrigin": "Egypt",
+    "MaterialAvailability": [ "Blocks", "slabs", "tiles" ],
+    "DimensionsOfTheSlabs": "265-300cm x 160-195cm",
+    "ThicknessOfTheSlabs": [ 15, 20, 30, 40, 50 ],
+    "SurfaceFinishes": [ "Polished", "unpolished", "honed", "brushed", "acid", "sandblasted", "bush hammered", "tumbled", "striped", "split face and flamed" ],
+    "MainPictureName": "egyptian-marble/zafarana-Flower.jpg",
+    "Pictures": [
+      "egyptian-marble/zafarana-Flower.jpg",
+      "egyptian-marble/زعفرانه-مسطر.jpg"
+    ]
+  }
+]

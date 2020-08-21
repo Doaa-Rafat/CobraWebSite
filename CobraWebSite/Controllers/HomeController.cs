@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CobraWebSite.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CobraWebSite.Controllers
@@ -10,7 +11,11 @@ namespace CobraWebSite.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            #region Get Main Categories from API 
+
+            var mainCategories = APIUtilities.GetMainCategories();
+            #endregion
+            return View(mainCategories);
         }
     }
 }
