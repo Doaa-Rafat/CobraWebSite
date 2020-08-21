@@ -16,5 +16,6 @@ namespace CobraWebSite.Utilities
     public class SettingKeys
     {
         public string CobraAPIURL { get; set; }
+        public string DBConnectionString { get; set; }
     }
 }

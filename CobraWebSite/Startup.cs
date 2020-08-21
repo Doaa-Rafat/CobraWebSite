@@ -80,6 +80,7 @@ namespace CobraWebSite
             #region SettingsKeys
             SettingKeys settings = new SettingKeys();
             settings.CobraAPIURL = configuration["CobraAPIURL"];
+            settings.DBConnectionString = configuration["ConnectionStrings:DefaultConnection"];
             ConfigurationManager.settingKeys = settings;
 
             services.AddSingleton<ConfigurationManager>();
