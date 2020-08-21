@@ -12,5 +12,9 @@ namespace CobraWebSite.Controllers
         {
             return View();
         }
+        public IActionResult ProductDetails(int id)
+        {
+            return View();
+        }
     }
 }

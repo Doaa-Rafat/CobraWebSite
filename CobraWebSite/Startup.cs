@@ -110,6 +110,11 @@ namespace CobraWebSite
                         mvcRoutes.MapRoute(
                             name: "default",
                             template: "{culture=en-US}/{controller=Home}/{action=Index}/{id?}");
+
+                        mvcRoutes.MapRoute(
+                            name: "productDetails",
+                            template: "{culture=en-US}/ProductDetails/{id?}",
+                            defaults: new { Controller = "Product", Action = "ProductDetails" });
                     });
                 });
             });

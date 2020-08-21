@@ -3,8 +3,11 @@
 @inject LocService SharedLocalizer
 @{
     ViewData["Title"] = "Index";
+ 
+   string lang = System.Globalization.CultureInfo.CurrentCulture.Name;
+    
 }
-<input id="mainCategory"  type="hidden" value="@string.Join(",",Model.Select(m=>m.NameAR).ToList())"/>
+<input id="mainCategory" type="hidden" value="@string.Join(",",Model.Select(m=>m.NameAR).ToList())" />
 <!-- Home slider -->
 <section class="p-0">
     <div class="slide-1 home-slider">
@@ -15,13 +18,6 @@
                     <div class="row">
                         <div class="col">
                             <div class="slider-contain">
-                                <div>
-                                    @*<h4>
-                                        Direct Wood Flooring
-                                        Verona Tile - Light Grey Marble Laminate Flooring
-                                    </h4>*@
-                                    @*<a href="#" class="btn btn-solid">shop now</a>*@
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -35,11 +31,6 @@
                     <div class="row">
                         <div class="col">
                             <div class="slider-contain">
-                                <div>
-                                    @*<h4>welcome to fashion</h4>*@
-                                    @*<h4>Carrara White Marble Effect Polished Floor Tile</h4>*@
-                                    @* <a href="#" class="btn btn-solid">shop now</a>*@
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -53,18 +44,6 @@
 <div class="title1 section-t-space">
     <h2 class="title-inner1">Egyptian Granite</h2>
 </div>
-@*<div class="container">
-    <div class="row">
-        <div class="col-lg-6 offset-lg-3">
-            <div class="product-para">
-                <p class="text-center">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                </p>
-            </div>
-        </div>
-    </div>
-</div>*@
 <!-- Paragraph end -->
 <!-- Product slider -->
 <section class="section-b-space p-t-0 ratio_asos">
@@ -75,7 +54,7 @@
                     <div class="product-box">
                         <div class="img-wrapper">
                             <div class="front">
-                                <a href="product-page(no-sidebar).html">
+                                <a href="/@lang/ProductDetails/1">
                                     <img src="~/images/egyptian-granite/RedAswani.jpg"
                                          class="img-fluid blur-up lazyload bg-img" alt="">
                                 </a>
