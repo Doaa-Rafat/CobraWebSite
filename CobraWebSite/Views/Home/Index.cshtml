@@ -3,10 +3,11 @@
 @inject LocService SharedLocalizer
 @{
     ViewData["Title"] = "Index";
- 
-   string lang = System.Globalization.CultureInfo.CurrentCulture.Name;
-    
+
+    string lang = System.Globalization.CultureInfo.CurrentCulture.Name;
+
 }
+<input id="mainCategory" type="hidden" value="@lang" />
 @*<input id="mainCategory" type="hidden" value="@string.Join(",",Model.Select(m=>m.NameAR).ToList())" />*@
 <!-- Home slider -->
 <section class="p-0">
