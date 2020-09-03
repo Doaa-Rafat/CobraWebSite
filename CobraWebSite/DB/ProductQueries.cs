@@ -99,5 +99,26 @@ namespace CobraWebSite.DB
             }
 
         }
+
+        public static async Task<List<ProductMetaData>> ListProducts(int MainCategoryId, int CategoryType)
+        {
+            var SqlQuery = @"select p.Id , p.Namear , p.Nameen , i.name as mainImageName
+                            from product p 
+                            join productimages i on p.Id = i.productId
+                            where p.MainCategoryID = @catId and p.MainCategoryType = @catType and i.DisplayOrder = 0";
+            try
+            {
+                using (var conn = new AppDB())
+                {
+                    conn.Connection.Open();
+                    var result = (await conn.Connection.QueryAsync<ProductMetaData>(SqlQuery , new { catId = MainCategoryId , catType = CategoryType })).AsList();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

@@ -115,6 +115,13 @@ namespace CobraWebSite
                             name: "productDetails",
                             template: "{culture=en-US}/ProductDetails/{id?}",
                             defaults: new { Controller = "Product", Action = "ProductDetails" });
+
+                        mvcRoutes.MapRoute(
+                            name: "egyptian-granite",
+                            template: "{culture=en-US}/egyptian-granite",
+                            defaults: new { Controller = "Product", Action = "ListProducts" , MainCategoryId = 2 , CategoryType = 1 });
+                            
+
                     });
                 });
             });
