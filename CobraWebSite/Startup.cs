@@ -113,14 +113,18 @@ namespace CobraWebSite
 
                         mvcRoutes.MapRoute(
                             name: "productDetails",
-                            template: "{culture=en-US}/ProductDetails/{id?}",
+                            template: "{culture=en-US}/ProductDetails/{id}",
                             defaults: new { Controller = "Product", Action = "ProductDetails" });
 
                         mvcRoutes.MapRoute(
                             name: "egyptian-granite",
-                            template: "{culture=en-US}/egyptian-granite",
-                            defaults: new { Controller = "Product", Action = "ListProducts" , MainCategoryId = 2 , CategoryType = 1 });
-                            
+                            template: "{culture=en-US}/egyptian-granite/{pageNumber?}",
+                            defaults: new { Controller = "Product", Action = "ListProducts" , pageNumber = 1, MainCategoryId = 2 , CategoryType = 1 });
+
+                        mvcRoutes.MapRoute(
+                            name: "egyptian-marble",
+                            template: "{culture=en-US}/egyptian-marble/{pageNumber?}",
+                            defaults: new { Controller = "Product", Action = "ListProducts", pageNumber = 1, MainCategoryId = 1, CategoryType = 1 });
 
                     });
                 });

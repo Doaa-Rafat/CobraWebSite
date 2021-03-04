@@ -9,7 +9,7 @@ namespace CobraWebSite.Models
     {
         public int Id { get; set; }
         public string Namear { get; set; }
-        public int Nameen { get; set; }
+        public string Nameen { get; set; }
         public int MainCategoryID { get; set; }
         public int MainCategoryType { get; set; }
         public int OriginId { get; set; }

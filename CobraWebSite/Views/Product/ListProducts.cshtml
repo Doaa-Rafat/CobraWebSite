@@ -1,5 +1,8 @@
-﻿
+﻿@model List<CobraWebSite.Models.ProductMetaData>
+@{ 
+    string lang = System.Globalization.CultureInfo.CurrentCulture.Name;
 
+}
 <!-- breadcrumb start -->
 <div class="breadcrumb-section">
     <div class="container">
@@ -28,23 +31,39 @@
             <div class="row">
                 <div class="collection-content col">
                     <div class="page-main-content">
+                        <div class="top-banner-wrapper">
+                            <a href="#"><img src="~/images/mega-menu/2.jpg" class="img-fluid blur-up lazyload" alt=""></a>
+                        </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="collection-product-wrapper" style="opacity:1;">
                                     <div class="product-wrapper-grid">
                                         <div class="row margin-res">
-                                            <div class="col-lg-3">
-                                                <div class="product-box">
-                                                    <div class="img-wrapper">
-                                                        <div class="front">
-                                                            <a href="#"><img src="~/images/pro3/35.jpg" class="img-fluid blur-up lazyload bg-img" alt=""></a>
+                                            @foreach (var Product in Model)
+                                            {
+                                                //string pImageSrc   = "~/images/@ViewBag.ImageFolderName/@Product.mainImageName"
+                                                <div class="col-lg-3">
+                                                    <div class="product-box">
+                                                        <div class="img-wrapper">
+                                                            <div class="front">
+
+                                                                <a href="/@lang/ProductDetails/@Product.Id"><img src="~/images/@ViewBag.ImageFolderName/@Product.mainImageName" class="img-fluid blur-up lazyload bg-img" alt=""></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-detail">
+                                                            @{
+                                                                string letters = System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
+                                                                string ProductName = letters.Equals("ar") ? Product.Namear : Product.Nameen;
+                                                            }
+                                                            <div>
+                                                                <h4 style="text-align:center;">@ProductName</h4>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="product-detail">
-                                                        <h3 style="text-align:center;">Black Imperial</h3>
-                                                    </div>
                                                 </div>
-                                            </div>
+                                            }
+
                                         </div>
                                     </div>
                                     <div class="product-pagination">
