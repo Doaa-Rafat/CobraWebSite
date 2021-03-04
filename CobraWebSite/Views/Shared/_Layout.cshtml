@@ -37,6 +37,7 @@
 </head>
 
 @{ 
+    string cultureName = System.Globalization.CultureInfo.CurrentCulture.Name;
     string letters = System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
     var direction = letters.Equals("ar")? "rtl" :"ltr";
 }
@@ -254,14 +255,14 @@
                                             </div>
                                         </li>
                                         <li>
-                                            <a href="#">Home</a>
+                                            <a href="/">Home</a>
                                         </li>
                                         <li>
                                             <a href="#">product</a>
                                             <ul>
-                                                <li><a href="product-page(sticky).html">Egyptian Granite</a></li>
+                                                <li><a href="/@cultureName/egyptian-granite/1">Egyptian Granite</a></li>
                                                 <li><a href="product-page(sticky).html">Imported Granite</a></li>
-                                                <li><a href="product-page(sticky).html">Egyptian Marble</a></li>
+                                                <li><a href="/@cultureName/egyptian-marble/1">Egyptian Marble</a></li>
                                                 <li><a href="product-page(sticky).html">Imported Marble</a></li>
                                                 <li>
                                                     <a href="#">Others</a>
