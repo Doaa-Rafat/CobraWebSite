@@ -17,6 +17,10 @@ namespace CobraAmin.Controllers
         {
             _logger = logger;
         }
+        /// <summary>
+        ///Egyptian Granite
+        /// </summary>
+        /// <returns></returns>
 
         public IActionResult Index()
         {
