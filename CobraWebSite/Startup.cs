@@ -113,7 +113,7 @@ namespace CobraWebSite
 
                         mvcRoutes.MapRoute(
                             name: "productDetails",
-                            template: "{culture=en-US}/ProductDetails/{id}",
+                            template: "{culture=en-US}/Product/{id}",
                             defaults: new { Controller = "Product", Action = "ProductDetails" });
 
                         mvcRoutes.MapRoute(
@@ -126,6 +126,7 @@ namespace CobraWebSite
                             template: "{culture=en-US}/egyptian-marble/{pageNumber?}",
                             defaults: new { Controller = "Product", Action = "ListProducts", pageNumber = 1, MainCategoryId = 1, CategoryType = 1 });
 
+                    
                     });
                 });
             });

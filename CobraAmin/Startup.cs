@@ -127,7 +127,12 @@ namespace CobraAmin
                     pattern: "imported/marble/{pageNumber}",
                     defaults: new { Controller = "Product", Action = "ListProducts", pageNumber = 1, MainCategoryId = 1, CategoryType = 2 });
 
-
+                
+                 routes.MapControllerRoute(
+                            name: "productDetails",
+                            pattern: "Product/{id}",
+                            defaults: new { Controller = "Product", Action = "EditProductDetails" });
+                 
 
                 //routes.MapControllerRoute(subApp =>
                 //{

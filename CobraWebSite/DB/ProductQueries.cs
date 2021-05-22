@@ -102,7 +102,7 @@ namespace CobraWebSite.DB
 
         public static async Task<List<ProductMetaData>> ListProducts(int pageNumber  , int PageSize , int MainCategoryId, int CategoryType)
         {
-            var SqlQuery = @"select p.Id , p.Namear , p.Nameen , i.name as mainImageName
+            var SqlQuery = @"select p.Id , p.Namear , p.Nameen , i.name as mainImageName , p.keyname
                             from product p 
                             join productimages i on p.Id = i.productId
                             where p.MainCategoryID = @catId and p.MainCategoryType = @catType and i.DisplayOrder = 0
@@ -114,6 +114,67 @@ namespace CobraWebSite.DB
                     conn.Connection.Open();
                     var result = (await conn.Connection.QueryAsync<ProductMetaData>(SqlQuery , new { catId = MainCategoryId , catType = CategoryType })).AsList();
                     return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public static ProductDetails GetProductDetails(string productId, string lowerlang = "en")
+        {
+            ProductDetails details = null;
+            var SqlQuery = @"select p.Id, p.Name" + lowerlang + @" Name,MainCategoryID , MainCategoryType , p.Color" + lowerlang + @" Color  , o.Name"+ lowerlang + @" CountryOfOrigin   , (pv.`MaterialAvilability" + lowerlang + @"`) MaterialAvilability
+                            ,(psfv.`SurfaceFinishes" + lowerlang + @"`) SurfaceFinishes
+                            from product p 
+                            join origin o on p.OriginId = o.Id
+                            join `productmaterialavailability_view` pv on p.Id = pv.Id
+                            join `productsurfacefinishes_view` psfv on p.Id = psfv.Id
+                            where p.keyname = @Id;
+
+                            -- product price
+                            select p.Id , price.Price  , plk.UnitName" + lowerlang + @" PriceUnit ,Thickness, description" + lowerlang + @" MaterialDescription
+                            from product p 
+                            join productprice price on p.Id = price.FkproductId
+                            join priceunitlk plk on price.PriceUnit = plk.Id
+                            join materialdescriptionlk d on price.FKMaterialDescriptionId = d.Id
+                            where p.keyname = @Id;
+
+                            -- Product Images
+                            select p.Id , pi.name , pi.DisplayOrder
+                            from product p 
+                            join productimages pi on p.Id = pi.productId
+                            where p.keyname = @Id;
+
+                            -- product videos
+                            select p.Id , v.URL 
+                            from product p 
+                            join productvideos v on p.Id = v.productId
+                            where p.keyname = @Id;
+
+                            -- related products
+                            select p.Nameen, v.Nameen Name , v.keyname , v.name Imagename
+                            from product p
+                            join relatedproduct r on p.Id = r.productid
+                            join relatedproductdetails_view v on  r.relatedproductid = v.id 
+                            where p.keyname like @Id; 
+                            ";
+            try
+            {
+                using (var conn = new AppDB())
+                {
+                    conn.Connection.Open();
+
+                    using (var multi = conn.Connection.QueryMultiple(SqlQuery, new { Id = productId }))
+                    {
+                        details = multi.Read<ProductDetails>().First();
+                        details.PriceDetails = multi.Read<ProductPrice>().ToList();
+                        details.Images = multi.Read<ProductImage>().ToList();
+                        details.Videos = multi.Read<ProductVideo>().ToList();
+                        details.RelatedProducts = multi.Read<RelatedProduct>().ToList();
+                    }
+                    return details;
                 }
             }
             catch (Exception ex)

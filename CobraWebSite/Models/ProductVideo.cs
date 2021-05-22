@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CobraAmin.Models
+namespace CobraWebSite.Models
 {
-    public class MainCategory
+    public class ProductVideo
     {
         public int Id { get; set; }
-        public string Namear { get; set; }
-        public string Nameen { get; set; }
+        public string URL { get; set; }
+        public int ProductId { get; set; }
     }
 }

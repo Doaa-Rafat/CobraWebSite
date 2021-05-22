@@ -35,5 +35,10 @@ namespace CobraAmin.Controllers
             ViewBag.ImageFolderName = SubImageFolder.ToString();
             return View(products);
         }
+
+        public IActionResult EditProductDetails(int Id)
+        {
+            return View();
+        }
     }
 }

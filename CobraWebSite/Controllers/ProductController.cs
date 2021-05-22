@@ -46,10 +46,16 @@ namespace CobraWebSite.Controllers
             ViewBag.ImageFolderName = SubImageFolder.ToString();
             return View(products);
         }
-        public IActionResult ProductDetails(int id)
-        {
 
-            return View();
+        public IActionResult ProductDetails(string id)
+        {
+            #region Get details Of a product  by id from API 
+            var productDetails = ProductQueries.GetProductDetails(id,"en");
+            #endregion
+            if (productDetails != null)
+                return View(productDetails);
+            else
+                return View("~/Views/Shared/404.cshtml");
         }
     }
 }

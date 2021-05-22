@@ -1,4 +1,5 @@
 ﻿using CobraAmin.Models;
+using CobraEntities;
 using Dapper;
 using System;
 using System.Collections.Generic;
@@ -102,10 +103,13 @@ namespace CobraAmin.DB
 
         public static async Task<List<ProductMetaData>> ListProducts(int pageNumber, int PageSize, int MainCategoryId, int CategoryType)
         {
-            var SqlQuery = @"select p.Id , p.Namear , p.Nameen , i.name as mainImageName
+            var SqlQuery = @"select p.Id , p.Namear , p.Nameen , pi.name as mainImageName , o.Nameen as CountryOfOrigin , (pv.`MaterialAvilabilityen`) MaterialAvilability,(psfv.`SurfaceFinishesen`) SurfaceFinishes
                             from product p 
-                            join productimages i on p.Id = i.productId
-                            where p.MainCategoryID = @catId and p.MainCategoryType = @catType and i.DisplayOrder = 0
+                            join origin o on p.OriginId = o.Id
+                            join productimages pi on p.Id = pi.productId
+                            join `productmaterialavailability_view` pv on p.Id = pv.Id
+                            join `productsurfacefinishes_view` psfv on p.Id = psfv.Id
+                            where p.MainCategoryID = @catId and p.MainCategoryType = @catType and pi.DisplayOrder = 0
                             limit " + (pageNumber - 1) * PageSize + "," + PageSize;
             try
             {
