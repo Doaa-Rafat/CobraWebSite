@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using CobraLocalization.Resources;
+using CobraWebSite.Services;
 using CobraWebSite.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -81,8 +82,10 @@ namespace CobraWebSite
             SettingKeys settings = new SettingKeys();
             settings.CobraAPIURL = configuration["CobraAPIURL"];
             settings.DBConnectionString = configuration["ConnectionStrings:DefaultConnection"];
+            
             ConfigurationManager.settingKeys = settings;
-
+            services.Configure<MailSettings>(configuration.GetSection("MailSettings"));
+            services.AddTransient<IMailService, Services.MailService>();
             services.AddSingleton<ConfigurationManager>();
             #endregion
             services.AddMvc();
@@ -125,8 +128,24 @@ namespace CobraWebSite
                             name: "egyptian-marble",
                             template: "{culture=en-US}/egyptian-marble/{pageNumber?}",
                             defaults: new { Controller = "Product", Action = "ListProducts", pageNumber = 1, MainCategoryId = 1, CategoryType = 1 });
-
-                    
+                        mvcRoutes.MapRoute(
+                            name : "contact-us",
+                            template: "{culture=en-US}/contact-us",
+                            defaults: new
+                            {
+                                Controller = "Home",
+                                Action = "ContactUs"
+                            }
+                            );
+                        mvcRoutes.MapRoute(
+                                name: "about-us",
+                                template: "{culture=en-US}/about-us",
+                                defaults: new
+                                {
+                                    Controller = "Home",
+                                    Action = "AboutUs"
+                                }
+                                );
                     });
                 });
             });
