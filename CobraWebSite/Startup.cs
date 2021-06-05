@@ -56,12 +56,13 @@ namespace CobraWebSite
             #region Culture and translation
             supportedCultures = new List<CultureInfo>
                         {
-                    new CultureInfo("ar-EG"),
                     new CultureInfo("en-US"),
+                    new CultureInfo("ar-EG")
+
                         };
             localizationOptions = new RequestLocalizationOptions
             {
-                DefaultRequestCulture = new RequestCulture(culture: "ar-EG", uiCulture: "ar-EG"),
+                DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US"),
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures
 
