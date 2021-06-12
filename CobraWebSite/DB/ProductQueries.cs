@@ -154,7 +154,7 @@ namespace CobraWebSite.DB
                             where p.keyname = @Id;
 
                             -- related products
-                            select p.Nameen, v.Nameen Name , v.keyname , v.name Imagename
+                            select distinct p.Nameen, v.Nameen Name , v.keyname , v.name Imagename
                             from product p
                             join relatedproduct r on p.Id = r.productid
                             join relatedproductdetails_view v on  r.relatedproductid = v.id 

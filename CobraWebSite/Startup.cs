@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using CobraLocalization.Resources;
+using CobraWebSite.Services;
 using CobraWebSite.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,7 +35,7 @@ namespace CobraWebSite
         {
             services.AddSingleton<LocService>();
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -42,7 +43,7 @@ namespace CobraWebSite
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddMvc()
-                    .AddViewLocalization()
+                    .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
                     .AddDataAnnotationsLocalization(options =>
         {
             options.DataAnnotationLocalizerProvider = (type, factory) =>
@@ -81,8 +82,10 @@ namespace CobraWebSite
             SettingKeys settings = new SettingKeys();
             settings.CobraAPIURL = configuration["CobraAPIURL"];
             settings.DBConnectionString = configuration["ConnectionStrings:DefaultConnection"];
+            
             ConfigurationManager.settingKeys = settings;
-
+            services.Configure<MailSettings>(configuration.GetSection("MailSettings"));
+            services.AddTransient<IMailService, Services.MailService>();
             services.AddSingleton<ConfigurationManager>();
             #endregion
             services.AddMvc();
@@ -91,44 +94,100 @@ namespace CobraWebSite
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseForwardedHeaders(new ForwardedHeadersOptions { ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto});
-            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
-            app.UseRequestLocalization(locOptions.Value);
-
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();
-            app.UseRouter(routes =>
+            app.UseRouting();
+
+            // the following should be used afer UseRouting
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
+
+            app.UseEndpoints(routes =>
             {
-                routes.MapMiddlewareRoute("{culture=en-US}/{*mvcRoute}", subApp =>
-                {
-                    subApp.UseRequestLocalization(localizationOptions);
-
-                    subApp.UseMvc(mvcRoutes =>
-                    {
-                        mvcRoutes.MapRoute(
-                            name: "default",
-                            template: "{culture=en-US}/{controller=Home}/{action=Index}/{id?}");
-
-                        mvcRoutes.MapRoute(
+                routes.MapControllerRoute(name: "default",
+                            pattern: "/",
+                            defaults: new { Controller = "Home", Action = "Index" });
+                routes.MapControllerRoute(
                             name: "productDetails",
-                            template: "{culture=en-US}/Product/{id}",
+                            pattern: "en-US/Product/{id}",
                             defaults: new { Controller = "Product", Action = "ProductDetails" });
 
-                        mvcRoutes.MapRoute(
-                            name: "egyptian-granite",
-                            template: "{culture=en-US}/egyptian-granite/{pageNumber?}",
-                            defaults: new { Controller = "Product", Action = "ListProducts" , pageNumber = 1, MainCategoryId = 2 , CategoryType = 1 });
+                routes.MapControllerRoute(
+                    name: "egyptian-granite",
+                    pattern: "en-US/egyptian-granite/{pageNumber}",
+                    defaults: new { Controller = "Product", Action = "ListProducts", pageNumber = 1, MainCategoryId = 2, CategoryType = 1 });
 
-                        mvcRoutes.MapRoute(
-                            name: "egyptian-marble",
-                            template: "{culture=en-US}/egyptian-marble/{pageNumber?}",
-                            defaults: new { Controller = "Product", Action = "ListProducts", pageNumber = 1, MainCategoryId = 1, CategoryType = 1 });
+                routes.MapControllerRoute(
+                    name: "egyptian-marble",
+                    pattern: "en-US/egyptian-marble/{pageNumber}",
+                    defaults: new { Controller = "Product", Action = "ListProducts", pageNumber = 1, MainCategoryId = 1, CategoryType = 1 });
+                routes.MapControllerRoute(
+                    name: "contact-us",
+                    pattern: "en-US/contact-us",
+                    defaults: new
+                    {
+                        Controller = "Home",
+                        Action = "ContactUs"
+                    }
+                    );
+                routes.MapControllerRoute(
+                        name: "about-us",
+                        pattern: "en-US/about-us",
+                        defaults: new
+                        {
+                            Controller = "Home",
+                            Action = "AboutUs"
+                        }
+                        );
 
-                    
-                    });
-                });
+                //routes.MapMiddlewareRoute("{culture=en-US}/{*mvcRoute}", subApp =>
+                //{
+                //    subApp.UseRequestLocalization(localizationOptions);
+
+                //    subApp.UseMvc(mvcRoutes =>
+                //    {
+                //        mvcRoutes.MapRoute(
+                //            name: "default",
+                //            template: "{culture=en-US}/{controller=Home}/{action=Index}/{id?}");
+
+                //        mvcRoutes.MapRoute(
+                //            name: "productDetails",
+                //            template: "{culture=en-US}/Product/{id}",
+                //            defaults: new { Controller = "Product", Action = "ProductDetails" });
+
+                //        mvcRoutes.MapRoute(
+                //            name: "egyptian-granite",
+                //            template: "{culture=en-US}/egyptian-granite/{pageNumber?}",
+                //            defaults: new { Controller = "Product", Action = "ListProducts" , pageNumber = 1, MainCategoryId = 2 , CategoryType = 1 });
+
+                //        mvcRoutes.MapRoute(
+                //            name: "egyptian-marble",
+                //            template: "{culture=en-US}/egyptian-marble/{pageNumber?}",
+                //            defaults: new { Controller = "Product", Action = "ListProducts", pageNumber = 1, MainCategoryId = 1, CategoryType = 1 });
+                //        mvcRoutes.MapRoute(
+                //            name : "contact-us",
+                //            template: "{culture=en-US}/contact-us",
+                //            defaults: new
+                //            {
+                //                Controller = "Home",
+                //                Action = "ContactUs"
+                //            }
+                //            );
+                //        mvcRoutes.MapRoute(
+                //                name: "about-us",
+                //                template: "{culture=en-US}/about-us",
+                //                defaults: new
+                //                {
+                //                    Controller = "Home",
+                //                    Action = "AboutUs"
+                //                }
+                //                );
+                //    });
+                //});
             });
         }
 

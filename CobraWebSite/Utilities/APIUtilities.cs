@@ -9,28 +9,28 @@ namespace CobraWebSite.Utilities
 {
     public class APIUtilities
     {
-        public static List<MainCategory> GetMainCategories()
-        {
-            List<MainCategory> mainCategories = null;
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(ConfigurationManager.settingKeys.CobraAPIURL);
-                //HTTP GET
-                var responseTask = client.GetAsync("allmaincategory");
-                responseTask.Wait();
+        //public static List<MainCategory> GetMainCategories()
+        //{
+        //    List<MainCategory> mainCategories = null;
+        //    using (var client = new HttpClient())
+        //    {
+        //        client.BaseAddress = new Uri(ConfigurationManager.settingKeys.CobraAPIURL);
+        //        //HTTP GET
+        //        var responseTask = client.GetAsync("allmaincategory");
+        //        responseTask.Wait();
 
-                var result = responseTask.Result;
-                if (result.IsSuccessStatusCode)
-                {
-                    var readTask = result.Content.ReadAsAsync<List<MainCategory>>();
-                    readTask.Wait();
+        //        var result = responseTask.Result;
+        //        if (result.IsSuccessStatusCode)
+        //        {
+        //            var readTask = result.Content.<List<MainCategory>>();
+        //            readTask.Wait();
 
-                    mainCategories = readTask.Result;
-                    return mainCategories;
-                }
-            }
-            return null;
-        }
+        //            mainCategories = readTask.Result;
+        //            return mainCategories;
+        //        }
+        //    }
+        //    return null;
+        //}
 
         /*
          /*
