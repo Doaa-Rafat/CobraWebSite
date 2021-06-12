@@ -91,7 +91,8 @@
             <span>Thickness of the tiles: 10, 12, 15, 20, 30, 40 mm (up to 200mm by order).</span>
             <span>Surface finishes : @Model.SurfaceFinishes</span>
         </p>*@
-
+                        @if (Model.PriceDetails.Count > 0)
+                        {
                         <div class="border-product">
                             <h4 class="product-title">Product Price</h4>
 
@@ -133,7 +134,7 @@
                             </table>
 
                             </div>
-
+                        }
                             @*<div class="border-product">
                 <h6 class="product-title">Product Price</h6>
                 <div class="single-product-tables border-product detail-section">
@@ -325,7 +326,7 @@
                     <div class="product-box">
                         <div class="img-wrapper">
                             <div class="front">
-                                <a href="/en/Product/@item.keyname">
+                                <a href="/@System.Globalization.CultureInfo.CurrentCulture.Name/Product/@item.keyname">
                                     <img src="~/images/@subfoldername/@item.Imagename" class="img-fluid blur-up lazyload bg-img"
                                          alt="">
                                 </a>
